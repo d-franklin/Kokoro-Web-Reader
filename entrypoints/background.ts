@@ -3,7 +3,10 @@ import { messageType } from '@/models/messageType.ts'
 
 const contentMenuName = 'read-webpage-menu'
 
-const readWebPage = async (info: globalThis.Browser.contextMenus.OnClickData, tab: globalThis.Browser.tabs.Tab | undefined) => {
+const readWebPage = async (
+  info: globalThis.Browser.contextMenus.OnClickData,
+  tab: globalThis.Browser.tabs.Tab | undefined,
+) => {
   console.log('Context menu item clicked!', info, tab)
 
   if (!tab) return

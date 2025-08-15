@@ -27,6 +27,8 @@ export default defineBackground(() => {
   browser.contextMenus.onClicked.addListener(async (info, tab) => {
     if (info.menuItemId === contentMenuName) {
       await readWebPage(info, tab)
+      // Open the popup
+      await browser.action.openPopup()
     }
   })
 

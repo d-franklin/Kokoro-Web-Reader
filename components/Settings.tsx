@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { storage } from '#imports'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -21,28 +20,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Slider } from '@/components/ui/slider.tsx'
 import { Switch } from '@/components/ui/switch.tsx'
 import { cleanServerUrl, getVoices, testServer } from '@/lib/api.ts'
+import { Schema, formFields, formSchema } from '@/lib/form.ts'
+import { getDataStorage, getVoicesStorage, setDataStorage, setVoicesStorage } from '@/lib/storage.ts'
 
-const formSchema = z.object({
-  server: z.url().min(1),
-  voice: z.string().min(1),
-  lang_code: z.string().min(1),
-  volume_multiplier: z.number().min(1).max(10),
-  speed: z.number().min(0.25).max(4),
-  normalization_options_normalize: z.boolean(),
-  normalization_options_unit_normalization: z.boolean(),
-  normalization_options_url_normalization: z.boolean(),
-  normalization_options_email_normalization: z.boolean(),
-  normalization_options_optional_pluralization_normalization: z.boolean(),
-  normalization_options_phone_normalization: z.boolean(),
-  normalization_options_replace_remaining_symbols: z.boolean(),
-})
-type Schema = z.infer<typeof formSchema>
-const formFields = formSchema.keyof().enum
-
-const storageDataName = 'local:data'
-const storageVoicesName = 'local:voices'
-
-const SettingsForm = () => {
+const Settings = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -69,20 +50,23 @@ const SettingsForm = () => {
    * @returns {Promise<void>} A promise that resolves when the form values are updated
    */
   const updateFormValues = async () => {
-    const value = await storage.getItem<Schema>(storageDataName)
+    const value = await getDataStorage()
     if (!value) return
 
-    // Populate form with values from storage
-    for (let key in formFields) {
-      form.setValue(key as keyof Schema, value[key as keyof Schema])
-    }
-
     // Update voices from cache if available
-    const voices = await storage.getItem<string[]>(storageVoicesName)
+    const voices = await getVoicesStorage()
     if (voices) setVoices(voices)
 
-    // If the server url is valid, set the serverTestedValid flag to true
-    if (value.server) setServerTestedValid(true)
+    // Update the form on the next frame
+    setTimeout(() => {
+      // Populate form with values from storage
+      for (let key in formFields) {
+        form.setValue(key as keyof Schema, value[key as keyof Schema])
+      }
+
+      // If the server url is valid, set the serverTestedValid flag to true
+      if (value.server) setServerTestedValid(true)
+    })
   }
 
   /*
@@ -115,9 +99,10 @@ const SettingsForm = () => {
       // Populate voices from the server if the connection is successful
       const voices = await getVoices(server)
 
-      // Update the voices state and cache the voices
+      // Update the voice list state
       setVoices(voices)
-      await storage.setItem<string[]>(storageVoicesName, voices)
+      // Cache the voices
+      await setVoicesStorage(voices)
 
       // Set the serverTestedValid flag to true to enable the form submission
       setServerTestedValid(true)
@@ -135,7 +120,7 @@ const SettingsForm = () => {
    * @returns {Promise<void>} A promise that resolves when the form data is submitted to storage
    */
   const onSubmit = async (data: Schema) => {
-    await storage.setItem<Schema>(storageDataName, data)
+    await setDataStorage(data)
     toast.success('Configuration has been saved.')
   }
 
@@ -162,6 +147,7 @@ const SettingsForm = () => {
                         variant="outline"
                         onClick={onTestServer}
                         disabled={form.formState.isSubmitting}
+                        className="cursor-pointer"
                       >
                         Test Server
                       </Button>
@@ -486,4 +472,4 @@ const SettingsForm = () => {
   )
 }
 
-export default SettingsForm
+export default Settings

@@ -9,7 +9,7 @@ export default defineConfig({
   }),
   manifest: {
     // These permissions are required for "webext-dynamic-content-scripts" and "webext-permission-toggle" to work.
-    permissions: ['storage', 'scripting', 'activeTab', 'contextMenus'],
+    permissions: ['storage', 'scripting', 'activeTab', 'contextMenus', 'sidePanel'],
 
     // @ts-ignore: Valid MV3 key for chrome
     // optional_host_permissions: ['*://*/*'],

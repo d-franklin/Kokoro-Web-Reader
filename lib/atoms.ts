@@ -1,4 +1,4 @@
 import { atom } from 'jotai'
+import { TabEnum } from '@/lib/tabs.ts'
 
-export const showHelpAtom = atom<boolean>(false)
-export const activeTabAtom = atom<string>('')
+export const activeTabAtom = atom<TabEnum>(TabEnum.Player)

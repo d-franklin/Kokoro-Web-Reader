@@ -1,5 +1,6 @@
 export enum TabEnum {
-  Player = 'Player',
+  // Player = 'Player',
+  Previous = 'Previous',
   Settings = 'Settings',
   Help = 'Help',
 }

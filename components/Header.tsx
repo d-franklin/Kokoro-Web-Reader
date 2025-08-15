@@ -2,7 +2,7 @@ import { MessageSquareText } from 'lucide-react'
 
 const Header = () => {
   return (
-    <div className="flex items-center gap-2 border-b-2 p-4 font-bold text-green-700">
+    <div className="text-primary flex items-center gap-2 border-b-1 p-4 font-bold">
       <MessageSquareText />
       <div className="text-sm">Kokoro Web Reader</div>
     </div>

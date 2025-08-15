@@ -1,15 +1,16 @@
-import { useAtom } from 'jotai'
+import React from 'react'
 import Header from '@/components/Header.tsx'
 import Help from '@/components/Help.tsx'
+import Link from '@/components/Link.tsx'
 import Player from '@/components/Player.tsx'
 import Settings from '@/components/Settings.tsx'
+import { ScrollArea } from '@/components/ui/scroll-area.tsx'
 import { Toaster } from '@/components/ui/sonner.tsx'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs.tsx'
-import { activeTabAtom } from '@/lib/atoms.ts'
 import { TabEnum } from '@/lib/tabs.ts'
 
 const App = () => {
-  const [activeTab, setActiveTab] = useAtom<TabEnum>(activeTabAtom) // useState could be used here instead since the atom is reloaded on popup open
+  const [activeTab, setActiveTab] = useState<TabEnum>(TabEnum.Previous) // useState could be used here instead since the atom is reloaded on popup open
 
   const onValueChange = (value: string) => setActiveTab(TabEnum[value as keyof typeof TabEnum])
 
@@ -36,8 +37,63 @@ const App = () => {
             </TabsTrigger>
           ))}
         </TabsList>
-        <TabsContent value={TabEnum.Player.toString()}>
+        {/*<TabsContent value={TabEnum.Player.toString()}>
           <Player />
+        </TabsContent>*/}
+        <TabsContent value={TabEnum.Previous.toString()}>
+          <div>Previous Webpage TTS</div>
+
+          <ScrollArea className="h-40 w-full gap-2 px-2">
+            <div className="flex flex-row justify-between gap-1">
+              <div>Messaging – WXT</div>
+              <div className="text-primary cursor-pointer">Play</div>
+              <Link href="https://wxt.dev/guide/essentials/messaging.html">Website</Link>
+            </div>
+            <div className="flex flex-row justify-between gap-1">
+              <div>Messaging – WXT</div>
+              <div>Messaging – WXT</div>
+            </div>
+            <div className="flex flex-row justify-between gap-1">
+              <div>Messaging – WXT</div>
+              <div>Messaging – WXT</div>
+            </div>
+            <div className="flex flex-row justify-between gap-1">
+              <div>Messaging – WXT</div>
+              <div>Messaging – WXT</div>
+            </div>
+            <div className="flex flex-row justify-between gap-1">
+              <div>Messaging – WXT</div>
+              <div>Messaging – WXT</div>
+            </div>
+            <div className="flex flex-row justify-between gap-1">
+              <div>Messaging – WXT</div>
+              <div>Messaging – WXT</div>
+            </div>
+            <div className="flex flex-row justify-between gap-1">
+              <div>Messaging – WXT</div>
+              <div>Messaging – WXT</div>
+            </div>
+            <div className="flex flex-row justify-between gap-1">
+              <div>Messaging – WXT</div>
+              <div>Messaging – WXT</div>
+            </div>
+            <div className="flex flex-row justify-between gap-1">
+              <div>Messaging – WXT</div>
+              <div>Messaging – WXT</div>
+            </div>
+            <div className="flex flex-row justify-between gap-1">
+              <div>Messaging – WXT</div>
+              <div>Messaging – WXT</div>
+            </div>
+            <div className="flex flex-row justify-between gap-1">
+              <div>Messaging – WXT</div>
+              <div>Messaging – WXT</div>
+            </div>
+            <div className="flex flex-row justify-between gap-1">
+              <div>Messaging – WXT</div>
+              <div>Messaging – WXT</div>
+            </div>
+          </ScrollArea>
         </TabsContent>
         <TabsContent value={TabEnum.Settings.toString()}>
           <Settings />

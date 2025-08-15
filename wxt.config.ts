@@ -15,6 +15,10 @@ export default defineConfig({
     // optional_host_permissions: ['*://*/*'],
   },
   webExt: {
-    startUrls: ['http://localhost:8880/web/', 'https://wxt.dev/guide/essentials/messaging.html', 'http://localhost:8880/docs'],
+    startUrls: [
+      'http://localhost:8880/web/',
+      'https://wxt.dev/guide/essentials/messaging.html',
+      'http://localhost:8880/docs',
+    ],
   },
 })
